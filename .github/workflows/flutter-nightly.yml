@@ -1,7 +1,8 @@
 name: Flutter Nightly Build
 
 permissions:
-  contents: write   # 🔴 REQUIRED for creating/updating releases
+  contents: write   # REQUIRED for creating/updating releases
+  packages: write
 
 on:
   schedule:
