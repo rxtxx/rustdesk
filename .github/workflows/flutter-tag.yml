@@ -1,5 +1,8 @@
 name: Flutter Tag Build
 
+permissions:
+  contents: write
+  
 on:
   workflow_dispatch:
   push:
@@ -16,3 +19,4 @@ jobs:
     with:
       upload-artifact: true
       upload-tag: ${{ github.ref_name }}
+
