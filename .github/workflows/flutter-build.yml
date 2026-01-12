@@ -287,6 +287,8 @@ jobs:
           files: |
             ./SignOutput/rustdesk-*.msi
             ./SignOutput/rustdesk-*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
   # The fallback for the flutter version, we use Sciter for 32bit Windows.
   build-for-windows-sciter:
@@ -438,6 +440,9 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             ./SignOutput/rustdesk-*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
+
 
   build-rustdesk-ios:
     if: ${{ inputs.upload-artifact }}
@@ -776,6 +781,9 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             rustdesk*-${{ matrix.job.arch }}.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
+
 
   publish_unsigned:
     needs:
@@ -819,6 +827,8 @@ jobs:
           prerelease: true
           tag_name: ${{ env.TAG_NAME }}
           files: rustdesk-${{ env.VERSION }}-unsigned.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
   build-rustdesk-android:
     needs: [generate-bridge]
@@ -1102,6 +1112,8 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             ${{steps.sign-rustdesk.outputs.signedReleaseFile}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
       - name: Publish unsigned apk package
         if: env.ANDROID_SIGNING_KEY == null && env.UPLOAD_ARTIFACT == 'true'
@@ -1111,6 +1123,8 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             signed-apk/rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
   build-rustdesk-android-universal:
     needs: [build-rustdesk-android]
@@ -1286,6 +1300,8 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             ${{steps.sign-rustdesk.outputs.signedReleaseFile}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
       - name: Publish unsigned apk package
         if: env.ANDROID_SIGNING_KEY == null && env.UPLOAD_ARTIFACT == 'true'
@@ -1295,6 +1311,8 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             signed-apk/rustdesk-${{ env.VERSION }}-universal${{ env.suffix }}.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
   build-rustdesk-linux:
     needs: [generate-bridge]
@@ -1597,6 +1615,8 @@ jobs:
           files: |
             rustdesk-*.deb
             rustdesk-*.rpm
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
       - name: Upload deb
         uses: actions/upload-artifact@master
@@ -1632,6 +1652,8 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             res/rustdesk-${{ env.VERSION }}*.zst
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
   build-rustdesk-linux-sciter:
     if: ${{ inputs.upload-artifact }}
@@ -1852,6 +1874,8 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
       - name: Upload deb
         uses: actions/upload-artifact@master
@@ -1909,6 +1933,8 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             ./appimage/rustdesk-${{ env.VERSION }}-*.AppImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
   build-flatpak:
     name: Build flatpak ${{ matrix.job.target }}${{ matrix.job.suffix }}
@@ -1994,6 +2020,8 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             flatpak/rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}${{ matrix.job.suffix }}.flatpak
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
 
   build-rustdesk-web:
     if: False
@@ -2067,3 +2095,5 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             flutter/build/rustdesk-${{ env.VERSION }}-${{ env.RELEASE_NAME }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_WRITE_TOKEN }}
